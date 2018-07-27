@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Live Notes</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <input type="text" id="noteinput" v-model="input" @keyup.enter.exact="addNote" />
+      </div>
+      <div class="rectangle"></div>
+
+      <div class="note-holder">
+        <transition-group name="notes-transition" tag="div">
+          <div class="note notes-transition-item" v-for="note, i in notes" :key="note.key">
+            <div class="controls">
+              <a class="remove icon" @click="remove(i)"></a>
+              <a class="edit icon" @click="edit(i)"></a>
+            </div>
+            <div class="text">
+              {{ note.text }}
+            </div>
+          </div>
+        </transition-group>
+      </div>
+    </div>
+
+    <script src="socket.io.js"></script>
+    <script>
+      const IP = 'localhost';
+      const PORT = '3000';
+      const socket = new io();
+      const noteinput = document.getElementById('noteinput');
+
+      const app = new Vue({
+        el: '#app',
+        data: {
+          input: '',
+          notes: [],
+          editting: null
+        },
+        methods: {
+          addNote () {
+            if (this.editting === null) {
+              this.notes.push({ text: this.input, key: this.getRandom() });
+            } else {
+              this.notes[this.editting].text = this.input;
+              this.editting = null;
+            }
+            this.sync();
+
+            // Clear text field
+            this.input = '';
+          },
+          edit (i) {
+            this.input = this.notes[i].text;
+            this.editting = i;
+            noteinput.focus();
+            this.sync();
+          },
+          remove (i) {
+            this.notes.splice(i, 1);
+            this.sync();
+          },
+          sync () {
+            // Sync notes with other connected instances
+            socket.send({ notes: this.notes });
+          },
+          getRandom () {
+            let max = 1000000000
+            return Math.floor(Math.random() * max)
+          }
+        },
+        mounted () {
+          let app = this;
+          socket.on('message', function (data) {
+            if (data.hasOwnProperty('notes')) {
+              app.notes = data.notes;
+            }
+          });
+        }
+      });
+    </script>
+</body>
+</html>
