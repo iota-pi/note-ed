@@ -25,6 +25,13 @@ It may often be useful to have a multi-computer set up. For example, if using sc
 * Make sure that your firewall and router are not blocking the port you are running on. To change the running port, edit line 1 of `server.js`
 * Make sure that nothing else is using the same port on your computer, you can change the default port by editting `server.js`
 
-## Notes on using in conjunction with OBS window capture
+## Notes on using in conjunction with OBS window/display capture
 * OBS cannot capture Google Chrome windows with hardware acceleration enabled. Either disable hardware acceleration temporarily or use another browser, e.g. Firefox
 * One other option is to install a second version of Chrome (e.g. Dev or Canary editions) and disable hardware acceleration. However, this will have a noticable performance impact.
+* If you have trouble with window/display capturing in OBS (including PowerPoint) try (all of) the following:
+  * Run OBS as administrator
+  * Run in Windows 7 Compatability Mode
+  * If running a laptop with multiple GPUs (Nvidia Optimus), ensure that you are running OBS on the integrated GPU. This is because the Windows display is drawn on this GPU
+* To improve framerate, image quality, and/or decrease latency, ensure that the window/display you are capturing is the right size for the output. E.g. set up your display monitor, output monitor and OBS canvas resolutions to all be the same (e.g. 720p60)
+* If the OBS projector is intermittently lagging, try setting OBS process priority to "High" in the OBS settings
+* If image quality is poor, try changing the Downscale filter to "bicubic", the color space to "709", and color range to "partial"
