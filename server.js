@@ -1,4 +1,4 @@
-const port = 3000;
+const port = 80;
 let express = require('express')
 let app = express();
 let server = require('http').Server(app);
