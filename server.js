@@ -1,8 +1,9 @@
-const port = 80;
-let express = require('express')
+const port = 8001;
+let express = require('express');
 let app = express();
 let server = require('http').Server(app);
 let sock = require('socket.io')(server);
+let os = require('os');
 
 app.use(express.static(__dirname));
 app.get('/', function (req, res) {
@@ -21,5 +22,16 @@ sock.on('connection', function (client) {
 });
 
 server.listen(port, function () {
-  console.log('Server started, listening on port ' + port)
+  let interfaces = os.networkInterfaces().Ethernet;
+  let ips = [];
+  if (interfaces) {
+    ips = interfaces.filter(x => x.family === 'IPv4').map(x => x.address);
+  }
+  let portStr = (port !== 80) ? ':' + port : ''
+
+  console.log('Server started, you can access it at:');
+  for (let i = 0; i < ips.length; i++) {
+    console.log('  Network: ' + ips[i] + portStr + '/');
+  }
+  console.log('  Local:   ' + 'localhost' + portStr + '/');
 });
