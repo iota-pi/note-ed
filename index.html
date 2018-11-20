@@ -14,7 +14,12 @@
         <input type="text" id="noteinput" v-model="input" @keyup.enter.exact="addNote" />
       </div>
       <div class="rectangle" v-if="!fullscreen"></div>
-      <div class="black-background" v-if="fullscreen"></div>
+      <div
+        v-if="fullscreen"
+        class="black-background"
+        :class="{ 'send-back': fullscreen }"
+      >
+      </div>
 
       <div class="note-holder" :class="{ 'fullscreen-padding': fullscreen }">
         <transition-group name="notes-transition" tag="div">
@@ -23,9 +28,7 @@
               <a class="remove icon" @click="remove(i)"></a>
               <a class="edit icon" @click="edit(i)"></a>
             </div>
-            <div class="text">
-              {{ note.text }}
-            </div>
+            <div class="text" v-text="note.text"></div>
           </div>
         </transition-group>
       </div>
