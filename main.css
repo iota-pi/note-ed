@@ -6,7 +6,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
   height: 100vh;
 }
@@ -36,6 +36,16 @@ body {
   border: 2px solid limegreen;
   background: black;
   z-index: -5;
+}
+
+.black-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -5;
+  background: black;
 }
 
 .note-holder {
