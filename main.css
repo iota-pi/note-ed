@@ -59,6 +59,7 @@ body {
 
 .note {
   display: flex;
+  min-height: 33px;
 }
 .controls {
   /* Fill height, don't ever shrink */
