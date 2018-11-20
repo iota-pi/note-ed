@@ -35,6 +35,7 @@
     <script>
       const socket = new io();
       const noteinput = document.getElementById('noteinput');
+      const query = String(location.search)
 
       const app = new Vue({
         el: '#app',
@@ -42,7 +43,7 @@
           input: '',
           notes: [],
           editting: null,
-          fullscreen: String(location.hash) === '#display'
+          fullscreen: /^\?display(=(1|true|yes))?/gi.test(query)
         },
         methods: {
           addNote () {
