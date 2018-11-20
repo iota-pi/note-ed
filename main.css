@@ -45,6 +45,12 @@ body {
   min-height: 550px;
   margin: 2px 0;
 }
+.note-holder.fullscreen-padding {
+  margin-top: 80px;
+  padding: 0 80px;
+  min-height: 560px;
+}
+
 .note-holder > div {
   position: absolute;
   bottom: 0px;
@@ -112,9 +118,12 @@ input[type="text"] {
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABYElEQVRIS7WVbVXDMBSG720EMAlICIkAigIkAA5AAZsCcMAcAApWDOQEB8PBEHDzcm4P3elKu3VryO/keXK/EqZMyzk3J6IbIpoxcyUiixhj5Bx87/3yF76DE5GLyQJr7bkxJhLRWc9l3ycJnHO3IYSltdYaY6quBMDmZEGTFgDLEMJdnwTA10mCbs6HJAAWRwuGCtqVAFinlMqjBB34N4B7Zn5uct+WENE6xji+Bl24iJTa51poZn5pOkjTEkLQmajXqAiG4FrYoihWzDxTGIBPTYvefLRgCvxgBFPhewU54IOCXPBeQU74H0Fu+I7gP+BbgX4WzPzY9K6IXMUYqzF9fug/qQfNOVcx82VrcxSRh6IoXvcN0SH4NgLvPfZt7pvQMfBaYK0tjTGroQNT4LXAOacv4lOfYCq8Fnjv34joui0A8EFEMaU0bz9cY9PS3qcRaIE3AKqUkr7A+rdmWz9ICnLiL4SL0AAAAABJRU5ErkJggg==');
 }
 
-/*  */
+/* Transition */
 .notes-transition-item {
-  transition: all 1s;
+  transition: all 0.3s;
+}
+.no-transition .notes-transition-item {
+  transition: none;
 }
 .notes-transition-enter {
   opacity: 0;
