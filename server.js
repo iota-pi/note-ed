@@ -21,17 +21,30 @@ sock.on('connection', function (client) {
   });
 });
 
-server.listen(port, function () {
-  let interfaces = os.networkInterfaces().Ethernet;
-  let ips = [];
-  if (interfaces) {
-    ips = interfaces.filter(x => x.family === 'IPv4').map(x => x.address);
+function printNetworks (ips, append) {
+  let portStr = (port !== 80) ? ':' + port : '';
+
+  append = append || ''
+  for (let i = 0; i < ips.length; i++) {
+    let label = '  Network: ';
+    if (ips[i].local) {
+      label = '  Local:   ';
+    }
+    console.log(label + ips[i].ip + portStr + '/' + append);
   }
-  let portStr = (port !== 80) ? ':' + port : ''
+  console.log('  Local:   ' + 'localhost' + portStr + '/' + append);
+}
+
+server.listen(port, function () {
+  let interfaces = os.networkInterfaces();
+  let ips = Object.keys(interfaces).map(name => {
+    return interfaces[name].filter(x => x.family === 'IPv4')[0];
+  }).map(x => ({ ip: x.address, local: x.internal }));
+  ips.sort((a, b) => a.local - b.local);
 
   console.log('Server started, you can access it at:');
-  for (let i = 0; i < ips.length; i++) {
-    console.log('  Network: ' + ips[i] + portStr + '/');
-  }
-  console.log('  Local:   ' + 'localhost' + portStr + '/');
+  printNetworks(ips);
+
+  console.log('\nFor display mode:');
+  printNetworks(ips, '?display=1');
 });
