@@ -1,5 +1,5 @@
 # NoteEd — Live Note Taking
-NoteEd is a simple way to take notes on one computer and be able to broadcast them to multiple other devices in real-time, line-by-line. When used in conjunction with Open Broadcasting Software (OBS), a huge range of possibilities open up, including advanced compositing, and integration with other presentation tools such as Powerpoint.
+NoteEd is a simple way to take notes on one computer and be able to broadcast them to multiple other devices in real-time, line-by-line. When used in conjunction with Open Broadcasting Software (OBS), a huge range of possibilities open up, including advanced compositing and integration with other presentation tools such as Powerpoint.
 
 ## Downloading/Cloning this Repository
 On any machine which has `git` installed ([check here](https://www.linode.com/docs/development/version-control/how-to-install-git-on-linux-mac-and-windows/) for instructions on how to install `git`), open a terminal/command prompt window and enter the following commands
