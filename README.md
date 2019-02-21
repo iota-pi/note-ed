@@ -38,13 +38,13 @@ It may often be useful to have a multi-computer set up. The notes can be typed o
 * Make sure that nothing else is using the same port on your computer
 
 ## Capturing a Browser Window in OBS
-* On Windows and MacOS, OBS has a dedicated 'Browser' source, which is useful. However, this runs without hardware acceleration, which could make the animations seem a little laggy depending on your system.
-* If you want hardware acceleration, or are running on Linux, you will need to capture an actual browser window
-  * OBS cannot capture Google Chrome with the browser's hardware acceleration enabled.
+* On Windows and MacOS, OBS has a dedicated 'Browser' source. Set the URL appropriately, remembering the `?display=1`
+* If you are running on Linux, you may need to capture an actual browser window until OBS adds support for the browser source in the Linux build
+  * OBS cannot capture Chromium/Google Chrome windows when the browser's hardware acceleration is enabled
   * Firefox tends to work well even with hardware acceleration enabled
 
 ## General OBS Tips
-* If you have trouble with window/display capturing in OBS (including PowerPoint) try (all of) the following:
+* If you have trouble with window/display capturing in OBS try (all of) the following:
   * Run OBS as administrator
   * Run in Windows 7 Compatibility Mode
   * If running a Windows laptop with multiple GPUs (i.e. Nvidia Optimus), run OBS on the **integrated** GPU (the Windows display is drawn on this GPU)
