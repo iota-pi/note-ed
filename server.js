@@ -1,10 +1,12 @@
-const port = 8001;
 let express = require('express');
 let app = express();
 let server = require('http').Server(app);
 let sock = require('socket.io')(server);
 let os = require('os');
 let args = require('minimist')(process.argv.slice(2))
+
+// Get port from args or default to port 80
+const port = args.p || args.port || 80;
 
 // Get password from args (if provided)
 const editPassword = args.password || null
