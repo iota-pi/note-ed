@@ -4,37 +4,54 @@ let app = express();
 let server = require('http').Server(app);
 let sock = require('socket.io')(server);
 let os = require('os');
+let args = require('minimist')(process.argv.slice(2))
 
+// Get password from args (if provided)
+const editPassword = args.password || null
+
+// Configure express server
 app.use(express.static(__dirname));
 app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
 
-let lastnotes = [];
-sock.on('connection', function (client) {
-  client.send({ notes: lastnotes });
-  client.on('message', function (data) {
-    if (data.hasOwnProperty('notes')) {
-      client.broadcast.send({ notes: data.notes });
-      lastnotes = data.notes;
-    }
-  });
-});
-
+// Print network interfaces
 function printNetworks (ips, append) {
   let portStr = (port !== 80) ? ':' + port : '';
 
-  append = append || ''
+  append = append ? ('/' + append) : ''
   for (let i = 0; i < ips.length; i++) {
     let label = '  Network: ';
     if (ips[i].local) {
       label = '  Local:   ';
     }
-    console.log(label + ips[i].ip + portStr + '/' + append);
+    console.log(label + ips[i].ip + portStr + append);
   }
-  console.log('  Local:   ' + 'localhost' + portStr + '/' + append);
+  console.log('  Local:   ' + 'localhost' + portStr + append);
 }
 
+// Listen for web socket connections
+let lastnotes = [];
+sock.on('connection', (client) => {
+  client.send({ notes: lastnotes, secured: editPassword !== null });
+
+  client.on('authenticate', (data) => {
+    if (data.password === editPassword || editPassword === null) {
+      client.send({ auth: true });
+
+      client.on('message', (data) => {
+        if (data.hasOwnProperty('notes')) {
+          client.broadcast.send({ notes: data.notes });
+          lastnotes = data.notes;
+        }
+      });
+    } else {
+      client.send({ auth: false, error: 'Invalid password' });
+    }
+  });
+});
+
+// Start the HTTP server listening
 server.listen(port, function () {
   let interfaces = os.networkInterfaces();
   let ips = Object.keys(interfaces).map(name => {

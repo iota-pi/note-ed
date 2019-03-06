@@ -10,6 +10,16 @@
   </head>
   <body>
     <div id="app">
+      <div id="password" v-if="locked && !fullscreen">
+        <p>A password is required to edit these notes</p>
+        <input type="password" v-model="password" @keydown.enter="authenticate" />
+        <p class="error" v-if="error">{{ error }}</p>
+        <button @click="authenticate">
+          Unlock
+        </button>
+        <a href="?display">or view in display mode</a>
+      </div>
+
       <div class="container" v-if="!fullscreen">
         <input type="text" id="noteinput" v-model="input" @keyup.enter.exact="addNote" />
       </div>
@@ -47,7 +57,10 @@
           input: '',
           notes: [],
           editting: null,
-          fullscreen: /^\?display(=(1|true|yes))?/gi.test(query)
+          password: null,
+          fullscreen: /^\?display(=(1|true|yes))?/gi.test(query),
+          locked: false,
+          error: null
         },
         methods: {
           addNote () {
@@ -75,13 +88,46 @@
           sendNotes () {
             // Sync notes with other connected instances
             socket.send({ notes: this.notes });
+          },
+          authenticate () {
+            this.error = null
+            socket.emit('authenticate', { password: this.password })
           }
         },
         mounted () {
           let app = this;
+
           socket.on('message', function (data) {
+            // Check if we need to prompt for a password
+            if (data.hasOwnProperty('secured') && !app.fullscreen) {
+              app.locked = data.secured
+
+              // Automatically try to authenticate with previous password
+              // (or with no password, if the socket isn't secured)
+              if (!app.locked || app.password) {
+                app.authenticate()
+              }
+            }
+
+            // Check if authentication has been successful
+            if (data.hasOwnProperty('auth')) {
+              app.locked = !data.auth
+            }
+
+            // Display error in console
+            if (data.hasOwnProperty('error')) {
+              app.error = data.error
+            }
+
+            // Update notes
             if (data.hasOwnProperty('notes')) {
               app.notes = data.notes;
+            }
+
+            // Fall back to display-only mode (in case of incorrect password)
+            if (data.hasOwnProperty('display')) {
+              console.log('Falling back to display mode')
+              app.fullscreen = data.display
             }
           });
         }

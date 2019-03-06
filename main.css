@@ -110,6 +110,41 @@ input[type="text"] {
   color: white;
 }
 
+#password {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 24px;
+}
+#password > * {
+  margin: 10px;
+}
+#password > a {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+}
+.error {
+  color: red;
+}
+input[type="password"] {
+  font: inherit;
+  border: 1px solid #aaa;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: white;
+}
+button {
+  font: inherit;
+  color: rgba(0, 0, 0, 0.85);
+}
+
 .icon {
   display: inline-block;
   width: 16px;
