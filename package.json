@@ -1,0 +1,25 @@
+{
+  "name": "note-ed",
+  "version": "1.0.0",
+  "description": "Take notes on one computer and be able to broadcast them to multiple other devices in real-time",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iota-pi/note-ed.git"
+  },
+  "author": "David Adams",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iota-pi/note-ed/issues"
+  },
+  "homepage": "https://github.com/iota-pi/note-ed#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "minimist": "^1.2.0",
+    "socket.io": "^2.2.0"
+  }
+}
