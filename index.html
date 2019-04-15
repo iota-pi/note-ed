@@ -24,12 +24,6 @@
         <input type="text" id="noteinput" v-model="input" @keyup.enter.exact="addNote" />
       </div>
       <div class="rectangle" v-if="!fullscreen"></div>
-      <div
-        v-if="fullscreen"
-        class="black-background"
-        :class="{ 'send-back': fullscreen }"
-      >
-      </div>
 
       <div class="note-holder" :class="{ 'fullscreen-padding': fullscreen }">
         <transition-group name="notes-transition" tag="div">
