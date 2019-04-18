@@ -1,9 +1,9 @@
-let express = require('express');
-let app = express();
-let server = require('http').Server(app);
-let sock = require('socket.io')(server);
-let os = require('os');
-let args = require('minimist')(process.argv.slice(2))
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const sock = require('socket.io')(server);
+const os = require('os');
+const args = require('minimist')(process.argv.slice(2))
 
 // Get port from args or default to port 80
 const port = args.p || args.port || 80;
