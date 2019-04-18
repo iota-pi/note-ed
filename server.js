@@ -3,13 +3,13 @@ const app = express();
 const server = require('http').Server(app);
 const sock = require('socket.io')(server);
 const os = require('os');
-const args = require('minimist')(process.argv.slice(2))
+const args = require('minimist')(process.argv.slice(2));
 
 // Get port from args or default to port 80
 const port = args.p || args.port || 80;
 
 // Get password from args (if provided)
-const editPassword = args.password || null
+const editPassword = args.password || null;
 
 // Configure express server
 app.use(express.static(__dirname));
@@ -54,6 +54,14 @@ sock.on('connection', (client) => {
 });
 
 // Start the HTTP server listening
+server.on('error', function (error) {
+  if (error.code === 'EACCES' || error.code === 'EADDRINUSE') {
+    console.error('Could not listen on port ' + port);
+    console.error('Check that the port is unused and try again');
+    console.error('You can specify a different port with "-p [port]"');
+  }
+})
+
 server.listen(port, function () {
   let interfaces = os.networkInterfaces();
   let ips = Object.keys(interfaces).map(name => {
