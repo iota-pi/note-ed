@@ -12,7 +12,9 @@ const port = args.p || args.port || 80;
 const editPassword = args.password || null;
 
 // Configure express server
-app.use(express.static(__dirname));
+app.use(express.static(__dirname, {
+  etag: false,
+}));
 app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
