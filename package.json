@@ -19,7 +19,7 @@
   "homepage": "https://github.com/iota-pi/note-ed#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "socket.io": "^2.2.0"
   }
 }
